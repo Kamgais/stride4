@@ -13,7 +13,9 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    'Manrope-Regular': require('../assets/fonts/Manrope-Regular.ttf'),
+    'Manrope-Bold': require('../assets/fonts/Manrope-Bold.ttf'),
+    'Manrope-SemiBold': require('../assets/fonts/Manrope-SemiBold.ttf')
   });
 
   useEffect(() => {
@@ -27,10 +29,11 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === 'light' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+      <Stack.Screen name="register" options={{ title: 'Login', headerShown: false }}/>
+      {/* <Stack.Screen name="(tabs)" options={{headerShown: false }} /> */}
+      
       </Stack>
     </ThemeProvider>
   );

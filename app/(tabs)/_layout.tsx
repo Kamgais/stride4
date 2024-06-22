@@ -1,37 +1,125 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { Ionicons } from "@expo/vector-icons"
+import { Tabs } from "expo-router"
+import { View } from "react-native"
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+  <Tabs
+  screenOptions={{
+    headerShown: false,
+    tabBarShowLabel: false,
+    tabBarStyle: {
+        position: "absolute",
+        bottom: 27,
+        left: 10,
+        right: 10,
+        height: 72,
+        elevation: 0,
+        backgroundColor: "#8BC0DE",
+        borderRadius: 10,
+        alignItems: "center",
+        justifyContent: "center"
+    }
+  }}
+  >
+    <Tabs.Screen name="index" 
+     
+    options={{
         headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
-  );
+        tabBarIcon: ({focused}) => (
+            <View style={{
+                alignItems: "center",
+                paddingTop: 10
+            }}>
+                <Ionicons
+                name="home-outline"
+                size={35}
+                color={ 'white'}
+                />
+            </View>
+        )
+
+    }}/>
+    <Tabs.Screen name="calendar"
+      options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => (
+            <View style={{
+                alignItems: "center",
+                paddingTop: 10
+            }}>
+                <Ionicons
+                name="calendar-outline"
+                size={35}
+                color={ 'white'}
+                />
+            </View>
+        )
+
+    }}
+    />
+      <Tabs.Screen name="add"
+    options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => (
+            <View style={{
+                alignItems: "center",
+               justifyContent:"center",
+               height: 76,
+               width: 76,
+               borderRadius: 999,
+               backgroundColor: 'black',
+               marginBottom:26,
+               borderWidth: 4,
+               borderColor: 'white'
+            }}>
+                <Ionicons
+                name="add-outline"
+                size={45}
+                color={ 'white'}
+                />
+            </View>
+        )
+
+    }}
+    />
+    <Tabs.Screen name="statistic"
+     options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => (
+            <View style={{
+                alignItems: "center",
+                paddingTop: 10
+            }}>
+                <Ionicons
+                name="stats-chart-outline"
+                size={35}
+                color={ 'white'}
+                />
+            </View>
+        )
+
+    }}
+    />
+    <Tabs.Screen name="settings"
+    options={{
+        headerShown: false,
+        tabBarIcon: ({focused}) => (
+            <View style={{
+                alignItems: "center",
+                paddingTop: 10
+            }}>
+                <Ionicons
+                name="settings-outline"
+                size={35}
+                color={ 'white'}
+                />
+            </View>
+        )
+
+    }}
+    />
+    
+  </Tabs>
+  )
 }

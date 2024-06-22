@@ -1,70 +1,93 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native'
+import React from 'react'
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 
-export default function HomeScreen() {
+
+export default function DashboardScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" />
+    <View style={styles.container}>
+      
+      <Text style={styles.title}>Hallo, Max!</Text>
+      <Text style={styles.subtitle}>Deine heutigen Schritte liegen bei:</Text>
+
+      <View style={styles.circularProgress}>
+        <Text style={styles.circularProgressText}>Dein Tagesziel: 10.000</Text>
+        <Text style={styles.circularProgressStep}>7500</Text>
+      </View>
+      <View style={styles. statisticBox}>
+        <View>
+          <Text style={styles.statisticBoxDetails}>Deine Woche</Text>
+          <Text style={{color: '#222222',fontSize: 20, fontWeight: 'bold'}}>25500</Text>
+        </View>
+        <View>
+    
+        </View>
+      </View>
+    </View>
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+   paddingHorizontal: 10,
+   paddingVertical: 40,
+   gap: 20,
+   alignItems: 'center'
+   
+  },
+  title: {
+    fontSize: 50,
+    width: '100%',
+    fontWeight: 'condensedBold'
+  },
+  subtitle: {
+    fontSize: 25,
+    width: '80%',
+    alignSelf: 'flex-start',
+    paddingVertical: 10,
+    fontWeight: 'condensedBold'
+  },
+   safeArea: {
+    
+   },
+   circularProgress: {
+    width: 300,
+    height: 300,
+    borderWidth: 15,
+    borderRadius: 999,
+    borderColor: '#8BC0DE',
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+    gap: 40
+   },
+   circularProgressText: {
+    fontSize: 20,
+    fontWeight: 'condensedBold'
+   },
+   circularProgressStep: {
+    fontSize: 60,
+    fontWeight: 'bold'
+   },
+   statisticBox: {
+    width: '100%',
+    height: 95,
+    borderRadius: 15,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    padding: 20,
+    justifyContent: 'center'
+   },
+   statisticBoxDetails: {
+    color: '#858585',
+    fontSize: 18
+   },
+   statisticBoxGraph: {
+
+   }
+})
