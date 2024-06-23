@@ -2,11 +2,18 @@ import { View, Text, SafeAreaView, StatusBar, StyleSheet, TextInput} from 'react
 import React, { useState } from 'react'
 import { Calendar } from 'react-native-calendars'
 import Button from '@/components/Button';
+import BottomModalSheet from '@/components/BottomModalSheet';
+import Modal from 'react-native-modal';
 
 
 
 export default function CalendarScreen() {
   const [email, setEmail] = useState('');
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   return (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
@@ -26,9 +33,17 @@ export default function CalendarScreen() {
           keyboardType="numeric"
           autoCapitalize="none"
           />
-         <Button title='Bearbeiten' onPress={() => {}}/>
+         <Button title='Bearbeiten' onPress={toggleModal}/>
         </View>
     </View>
+    <Modal 
+        isVisible={isModalVisible}
+        swipeDirection="down"
+        onSwipeComplete={toggleModal}
+        style={styles.modal}
+      >
+        <BottomModalSheet toggleModal={toggleModal} />
+      </Modal>
     </SafeAreaView>
   )
 }
@@ -65,5 +80,9 @@ const styles = StyleSheet.create({
     color: '#000000',
      fontFamily: 'Manrope',
      backgroundColor: 'white'
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
   },
 })
