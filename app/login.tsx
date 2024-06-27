@@ -1,5 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ImageBackground } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  ImageBackground,
+  Image
+} from 'react-native';
+import {options} from "colorette";
 
 
 
@@ -8,9 +19,6 @@ const image = { uri: "@/assets/images/bg.png" };
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-
-  
 
   const handleLogin = () => {
     // Add login logic here
@@ -30,23 +38,35 @@ const LoginScreen = () => {
           <Text style={styles.subtitle}>Sammle deine Schritte und bringe dich und dein Gericht an die Spitze!</Text>
         </View>
         <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="E-Mail"
-            placeholderTextColor="#999999"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Passwort"
-            placeholderTextColor="#999999"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+          <View  style={styles.inputWrapper}>
+            <Image
+                source={require('@/assets/images/user.png')}
+                style={styles.icon}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="E-Mail"
+              placeholderTextColor="#999999"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+          </View>
+          <View  style={styles.inputWrapper}>
+            <Image
+              source={require('@/assets/images/passwrd.png')}
+              style={styles.icon}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Passwort"
+              placeholderTextColor="#999999"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+            />
+          </View>
           <TouchableOpacity>
             <Text style={styles.forgotPassword}>Passwort vergessen?</Text>
           </TouchableOpacity>
@@ -132,7 +152,7 @@ const styles = StyleSheet.create({
   //  elevation: 5,
      fontFamily: 'Manrope'
   },
-  input: {
+  inputWrapper: {
     height: 50,
     borderColor: '#CCCCCC',
     borderWidth: 1,
@@ -145,7 +165,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#000000',
      fontFamily: 'Manrope',
-     backgroundColor: 'white'
+     backgroundColor: 'white',
+    flexDirection:"row",
+    alignItems:"center"
   },
   forgotPassword: {
     color: '#8BC0DE',
@@ -178,6 +200,14 @@ const styles = StyleSheet.create({
     color: '#8BC0DE',
      fontFamily: 'Manrope'
   },
+  icon: {
+    width: 12,
+    height: 12,
+
+  },
+  input:{
+    paddingLeft:30,
+  }
 });
 
 export default LoginScreen;

@@ -1,8 +1,8 @@
-import SelectDropdown from '@/components/Select';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ImageBackground } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ImageBackground } from 'react-native';
 
 
+const cities = ["Berlin","Brandenburg","Frankfurter(Oder)"];
 
 const image = { uri: "@/assets/images/bg.png" };
 const options = ['Option 1', 'Option 2', 'Option 3'];
@@ -37,63 +37,99 @@ const RegisterScreen = () => {
         </View>
         <View style={styles.inputContainer}>
             <Text>Persönliche Angaben:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Vorname"
-            placeholderTextColor="#999999"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Nachname"
-            placeholderTextColor="#999999"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+          <View  style={styles.inputWrapper}>
+            <Image
+                style={styles.icon}
+                source={require('@/assets/images/user.png')}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Vorname"
+              placeholderTextColor="#999999"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+          </View>
+            <View  style={styles.inputWrapper}>
+              <Image
+                  style={styles.icon}
+                  source={require('@/assets/images/user.png')}
+              />
+              <TextInput
+                  style={styles.input}
+                  placeholder="Nachname"
+                  placeholderTextColor="#999999"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+              />
+            </View>
           </View>
           <View style={styles.inputContainer}>
             <Text>Email und Password vergeben:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="E-Mail"
-            placeholderTextColor="#999999"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password eingeben"
-            placeholderTextColor="#999999"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-           <TextInput
-            style={styles.input}
-            placeholder="Password wiederholen"
-            placeholderTextColor="#999999"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
+            <View style={styles.inputWrapper}>
+              <Image
+                  style={styles.icon}
+                  source={require('@/assets/images/user.png')}
+              />
+              <TextInput
+                  style={styles.input}
+                  placeholder="E-Mail"
+                  placeholderTextColor="#999999"
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+              />
+            </View>
+            <View style={styles.inputWrapper}>
+              <Image
+                  style={styles.icon}
+                  source={require('@/assets/images/passwrd.png')}
+              />
+              <TextInput
+                  style={styles.input}
+                  placeholder="Password eingeben"
+                  placeholderTextColor="#999999"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+              />
+            </View>
+            <View style={styles.inputWrapper}>
+              <Image
+                  style={styles.icon}
+                  source={require('@/assets/images/passwrd.png')}
+              />
+               <TextInput
+                   style={styles.input}
+                  placeholder="Password wiederholen"
+                  placeholderTextColor="#999999"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+              />
+            </View>
           </View>
-          <View style={styles.inputContainer}>
-            <Text>Bitte wähle dein Gericht aus:</Text>
-            <TextInput
-            style={styles.input}
-            placeholder="Gericht eingeben"
-            placeholderTextColor="#999999"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-          </View>
+            <View style={styles.inputContainer}>
+              <Text>Bitte wähle dein Gericht aus:</Text>
+              <View style={styles.inputWrapper}>
+                <Image
+                    style={styles.icon}
+                    source={require('@/assets/images/city.png')}
+                />
+                <TextInput
+                    style={styles.input}
+                  placeholder="Gericht eingeben"
+                  placeholderTextColor="#999999"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry/>
+              </View>
+
+            </View>
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Register</Text>
           </TouchableOpacity>
@@ -175,7 +211,7 @@ const styles = StyleSheet.create({
   //  elevation: 5,
      fontFamily: 'Manrope'
   },
-  input: {
+  inputWrapper: {
     height: 50,
     borderColor: '#CCCCCC',
     borderWidth: 1,
@@ -184,11 +220,15 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    paddingHorizontal: 30,
+    paddingHorizontal: 40,
     marginBottom: 10,
     color: '#000000',
      fontFamily: 'Manrope',
-     backgroundColor: 'white'
+     backgroundColor: 'white',
+    // paddingLeft:20
+    flexDirection:'row',
+    alignItems:"center"
+
   },
   forgotPassword: {
     color: '#8BC0DE',
@@ -222,6 +262,14 @@ const styles = StyleSheet.create({
     color: '#8BC0DE',
      fontFamily: 'Manrope'
   },
+  icon: {
+    width: 12,
+    height: 12,
+
+  },
+  input:{
+    paddingLeft:30,
+  }
 });
 
 export default RegisterScreen;
