@@ -1,28 +1,78 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ImageBackground } from 'react-native';
-
-
-
-const image = { uri: "@/assets/images/bg.png" };
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ActivityIndicator } from 'react-native';
+import axios from 'axios';
+import { useRouter } from 'expo-router';
+import Toast from 'react-native-toast-message';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
+  const router = useRouter();
 
-  
+  const handleLogin = async () => {
+    // Reset error state
+    setError('');
 
-  const handleLogin = () => {
-    // Add login logic here
+    // Basic validation
+    if (!email) {
+      setError('E-Mail is required');
+      Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: 'E-Mail is required',
+      });
+      return;
+    }
+    if (!password) {
+      setError('Password is required');
+      Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: 'Password is required',
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post('http://localhost:8080/api/login', {
+        email,
+        password,
+      });
+      // Handle successful login
+      console.log(response.data);
+      // Redirect or save token
+      Toast.show({
+        type: 'success',
+        text1: 'Login Successful',
+        text2: 'Welcome back!',
+      });
+    } catch (error) {
+      console.error(error);
+      // Handle login error
+      setError('Invalid email or password');
+      Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: 'Invalid email or password',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRegister = () => {
-    // Add register navigation logic here
+    router.replace('/register');
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
+      <Toast />
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={styles.circle} />
@@ -39,6 +89,7 @@ const LoginScreen = () => {
             keyboardType="email-address"
             autoCapitalize="none"
           />
+          {error.includes('E-Mail') && <Text style={styles.errorText}>{error}</Text>}
           <TextInput
             style={styles.input}
             placeholder="Passwort"
@@ -47,12 +98,20 @@ const LoginScreen = () => {
             onChangeText={setPassword}
             secureTextEntry
           />
+          {error.includes('Password') && <Text style={styles.errorText}>{error}</Text>}
           <TouchableOpacity>
             <Text style={styles.forgotPassword}>Passwort vergessen?</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Login</Text>
-          </TouchableOpacity>
+          {error && !error.includes('E-Mail') && !error.includes('Password') && (
+            <Text style={styles.errorText}>{error}</Text>
+          )}
+          {loading ? (
+            <ActivityIndicator size="large" color="#87CEFA" />
+          ) : (
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginButtonText}>Login</Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity onPress={handleRegister}>
             <Text style={styles.register}>Noch keinen Account? <Text style={styles.registerLink}>Register</Text></Text>
           </TouchableOpacity>
@@ -65,8 +124,7 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#8BC0DE'
-   
+    backgroundColor: '#8BC0DE',
   },
   container: {
     flex: 1,
@@ -76,18 +134,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingTop: 0,
     fontFamily: 'Manrope',
-    height: '100%'
-  },
-
-  image: {
-    paddingTop: 40,
-    width: '100%',
-    height: '80%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    
-    //backgroundColor: 'black'
-   // height: '50%'
+    height: '100%',
   },
   header: {
     paddingTop: 40,
@@ -95,7 +142,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     height: '50%',
     width: '100%',
-    backgroundColor: '#8BC0DE'
+    backgroundColor: '#8BC0DE',
   },
   circle: {
     width: 100,
@@ -109,28 +156,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
     marginBottom: 10,
-    fontFamily: 'Manrope-Bold'
+    fontFamily: 'Manrope-Bold',
   },
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
     color: '#FFFFFF',
-     fontFamily: 'Manrope-SemiBold'
+    fontFamily: 'Manrope-SemiBold',
   },
   inputContainer: {
     width: '100%',
     height: '50%',
     backgroundColor: 'white',
-  //  borderRadius: 10,
-  padding: 20,
+    padding: 20,
     marginTop: 0,
     shadowColor: '#000',
-  
-  //  shadowOffset: { width: 0, height: 2 },
-  //  shadowOpacity: 0.2,
-  //  shadowRadius: 10,
-  //  elevation: 5,
-     fontFamily: 'Manrope'
+    fontFamily: 'Manrope',
   },
   input: {
     height: 50,
@@ -144,14 +185,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     marginBottom: 10,
     color: '#000000',
-     fontFamily: 'Manrope',
-     backgroundColor: 'white'
+    fontFamily: 'Manrope',
+    backgroundColor: 'white',
   },
   forgotPassword: {
     color: '#8BC0DE',
     textAlign: 'left',
     marginBottom: 20,
-     fontFamily: 'Manrope'
+    fontFamily: 'Manrope',
   },
   loginButton: {
     height: 50,
@@ -168,7 +209,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
-     fontFamily: 'Manrope'
+    fontFamily: 'Manrope',
   },
   register: {
     textAlign: 'left',
@@ -176,9 +217,12 @@ const styles = StyleSheet.create({
   },
   registerLink: {
     color: '#8BC0DE',
-     fontFamily: 'Manrope'
+    fontFamily: 'Manrope',
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
   },
 });
 
 export default LoginScreen;
-
