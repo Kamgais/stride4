@@ -1,19 +1,52 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Image, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ImageBackground } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 
-const cities = ["Berlin","Brandenburg","Frankfurter(Oder)"];
+
+// Predefined list of items
+const items = [
+  { label: 'OLG Brandenburg a. d. Havel', value: 'OLG Brandenburg a. d. Havel' },
+  { label: 'LG Frankfurt (Oder)', value: 'LG Frankfurt (Oder)' },
+  { label: 'LG Neuruppin', value: 'LG Neuruppin' },
+  { label: 'LG Potsdam', value: 'LG Potsdam' },
+  { label: 'LG Cottbus', value: 'LG Cottbus' },
+  { label: 'AG Angermünde', value: 'AG Angermünde' },
+  { label: 'AG Bad Freienwalde (Oder)', value: 'AG Bad Freienwalde (Oder)' },
+  { label: 'AG Beeskow', value: 'AG Beeskow' },
+  { label: 'AG Brandenburg a. d. Havel', value: 'AG Brandenburg a. d. Havel' },
+  { label: 'AG Cottbus', value: 'AG Cottbus' },
+  { label: 'AG Eberswalde', value: 'AG Eberswalde' },
+  { label: 'AG Eisenhüttenstadt', value: 'AG Eisenhüttenstadt' },
+  { label: 'AG Fürstenwalde/Spree', value: 'AG Fürstenwalde/Spree' },
+  { label: 'AG Königs Wusterhausen', value: 'AG Königs Wusterhausen' },
+  { label: 'AG Luckenwalde', value: 'AG Luckenwalde' },
+  { label: 'AG Nauen', value: 'AG Nauen' },
+  { label: 'AG Neuruppin', value: 'AG Neuruppin' },
+  { label: 'AG Oranienburg', value: 'AG Oranienburg' },
+  { label: 'AG Perleberg', value: 'AG Perleberg' },
+  { label: 'AG Potsdam', value: 'AG Potsdam' },
+  { label: 'AG Rathenow', value: 'AG Rathenow' },
+  { label: 'AG Schwedt/Oder', value: 'AG Schwedt/Oder' },
+  { label: 'AG Senftenberg', value: 'AG Senftenberg' },
+  { label: 'AG Strausberg', value: 'AG Strausberg' },
+  { label: 'AG Templin', value: 'AG Templin' },
+  { label: 'AG Wittstock/Dosse', value: 'AG Wittstock/Dosse' },
+  { label: 'AG Wittenberge', value: 'AG Wittenberge' },
+  { label: 'AG Zossen', value: 'AG Zossen' },
+];
 
 const image = { uri: "@/assets/images/bg.png" };
-const options = ['Option 1', 'Option 2', 'Option 3'];
+
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+   // [selectedOption, setSelectedOption] = useState(options[0]);
+  const [selectedValue, setSelectedValue] = useState('');
 
   const handleSelect = (option: React.SetStateAction<string>) => {
-    setSelectedOption(option);
+    // setSelectedOption(option);
   };
 
   
@@ -119,14 +152,17 @@ const RegisterScreen = () => {
                 <Image
                     style={styles.icon}
                     source={require('@/assets/images/city.png')}
-                />
-                <TextInput
-                    style={styles.input}
-                  placeholder="Gericht eingeben"
-                  placeholderTextColor="#999999"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry/>
+               />
+                <Picker
+                    selectedValue={selectedValue}
+                    onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+                    style={styles.picker}
+                >
+                  <Picker.Item label="- bitte wählen - " value="" />
+                  {items.map((item, index) => (
+                      <Picker.Item key={index} label={item.label} value={item.value} />
+                  ))}
+                </Picker>
               </View>
 
             </View>
@@ -268,7 +304,10 @@ const styles = StyleSheet.create({
 
   },
   input:{
-    paddingLeft:30,
+    paddingLeft:40,
+  },
+  picker:{
+    paddingLeft:350,
   }
 });
 
