@@ -1,10 +1,11 @@
 import { Ionicons } from "@expo/vector-icons"
 import { Tabs } from "expo-router"
-import { View } from "react-native"
+import { View} from "react-native"
 
 export default function TabLayout() {
   return (
   <Tabs
+  initialRouteName="index"
   screenOptions={{
     headerShown: false,
     tabBarShowLabel: false,
@@ -21,6 +22,7 @@ export default function TabLayout() {
         justifyContent: "center"
     }
   }}
+  
   >
     <Tabs.Screen name="index" 
      
@@ -29,13 +31,28 @@ export default function TabLayout() {
         tabBarIcon: ({focused}) => (
             <View style={{
                 alignItems: "center",
-                paddingTop: 10
+                justifyContent: 'center',
+                paddingTop: 10,
+                display: 'flex',
+                gap: 3
             }}>
                 <Ionicons
                 name="home-outline"
                 size={35}
                 color={ 'white'}
                 />
+               {
+                focused && (
+                    <View
+                    style={{
+                        width: 30,
+                        height: 4,
+                        backgroundColor: 'white'
+                    }}
+                    >
+                    </View>
+                )
+               }
             </View>
         )
 
@@ -46,13 +63,28 @@ export default function TabLayout() {
         tabBarIcon: ({focused}) => (
             <View style={{
                 alignItems: "center",
-                paddingTop: 10
+                justifyContent: 'center',
+                paddingTop: 10,
+                display: 'flex',
+                gap: 3
             }}>
                 <Ionicons
                 name="calendar-outline"
                 size={35}
                 color={ 'white'}
                 />
+                 {
+                focused && (
+                    <View
+                    style={{
+                        width: 30,
+                        height: 4,
+                        backgroundColor: 'white'
+                    }}
+                    >
+                    </View>
+                )
+               }
             </View>
         )
 
@@ -89,13 +121,29 @@ export default function TabLayout() {
         tabBarIcon: ({focused}) => (
             <View style={{
                 alignItems: "center",
-                paddingTop: 10
+                justifyContent: 'center',
+                paddingTop: 10,
+                display: 'flex',
+                gap: 3
             }}>
                 <Ionicons
                 name="stats-chart-outline"
                 size={35}
                 color={ 'white'}
                 />
+
+{
+                focused && (
+                    <View
+                    style={{
+                        width: 30,
+                        height: 4,
+                        backgroundColor: 'white'
+                    }}
+                    >
+                    </View>
+                )
+               }
             </View>
         )
 
@@ -107,13 +155,29 @@ export default function TabLayout() {
         tabBarIcon: ({focused}) => (
             <View style={{
                 alignItems: "center",
-                paddingTop: 10
+                justifyContent: 'center',
+                paddingTop: 10,
+                display: 'flex',
+                gap: 3
             }}>
                 <Ionicons
                 name="settings-outline"
                 size={35}
                 color={ 'white'}
                 />
+
+{
+                focused && (
+                    <View
+                    style={{
+                        width: 30,
+                        height: 4,
+                        backgroundColor: 'white'
+                    }}
+                    >
+                    </View>
+                )
+               }
             </View>
         )
 

@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
-const BottomModalSheet = ({ toggleModal }: any) => {
-  const [stepGoal, setStepGoal] = useState('10.000');
 
+
+type Props = {
+  toggleModal: () => void,
+  setValue: (value:number) => Promise<void>,
+  value: number,
+  title: string
+}
+const BottomModalSheet = ({ toggleModal, setValue , value, title }: Props) => {
+  const [input, setInput] = useState(value.toString())
+  const handleSubmit = async() => {
+   await setValue(Number(input))
+    toggleModal()
+  }
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <View style={styles.modalContent}>
-        <Text style={styles.title}>Dein Tagesziel:</Text>
+        <Text style={styles.title}>{title}</Text>
         <TextInput
           style={styles.input}
-          value={stepGoal}
-          onChangeText={setStepGoal}
+          value={input.toString()}
+          placeholder={input.toString()}
+          onChangeText={setInput}
           keyboardType="numeric"
           maxLength={6}
         />
-        <TouchableOpacity style={styles.addButton} onPress={toggleModal}>
-          <Text style={styles.addButtonText}>OK</Text>
+        <TouchableOpacity style={styles.addButton} onPress={handleSubmit}>
+        <AntDesign name="pluscircleo" size={24} color="black" />
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -29,11 +42,12 @@ const styles = StyleSheet.create({
     padding: 22,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    alignItems: 'center',
   },
   title: {
     fontSize: 16,
     marginBottom: 10,
+    fontWeight: 'bold',
+    textAlign: 'left'
   },
   input: {
     height: 40,
@@ -42,14 +56,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     fontSize: 16,
-    width: '80%',
+    width: '100%',
     textAlign: 'center',
   },
   addButton: {
-    marginTop: 10,
-    backgroundColor: '#ddd',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    bottom: 30,
+    right: 30
   },
   addButtonText: {
     fontSize: 18,

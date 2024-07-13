@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -39,18 +40,17 @@ const LoginScreen = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/login', {
-        email,
-        password,
-      });
+      const response = await axios.post(`http://ec2-16-170-77-0.eu-north-1.compute.amazonaws.com/auth/login?username=${email}&password=${password}`);
       // Handle successful login
-      console.log(response.data);
+      const jsonValue = JSON.stringify(response.data);
+      await AsyncStorage.setItem('user', jsonValue);
       // Redirect or save token
       Toast.show({
         type: 'success',
         text1: 'Login Successful',
         text2: 'Welcome back!',
       });
+      router.replace('/')
     } catch (error) {
       console.error(error);
       // Handle login error
@@ -71,6 +71,8 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <ScrollView showsVerticalScrollIndicator={false}>
       <StatusBar barStyle="dark-content" />
       <Toast />
       <View style={styles.container}>
@@ -117,6 +119,8 @@ const LoginScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
+      </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };

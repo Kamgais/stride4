@@ -1,67 +1,152 @@
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
-import Ranglist from '@/components/RangList'
+import React, { useEffect, useState } from 'react';
+import { View, Text, SafeAreaView, StatusBar, StyleSheet, ScrollView, RefreshControl} from 'react-native';
+import Ranglist from '@/components/RangList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
+import { WeeklyChart } from '.';
 
-export default function Statistic() {
+const Statistic = () => {
+  const [userRanking, setUserRanking] = useState([]);
+  const [courtRanking, setCourtRanking] = useState([]);
+  const [trainingsWeek, setTrainingsWeek] = useState([]);
+  const [currentUser, setCurrentUser] = useState<any>();
+  const [refreshing,setRefreshing] = useState(false);
+  const router = useRouter();
+
+
+
+  const getTrainingDaysForCurrentWeek = async () => {
+    try {
+      const response = await fetch(`http://ec2-16-170-77-0.eu-north-1.compute.amazonaws.com/trainingsdays/${currentUser?.id}/current-week`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch training days');
+      }
+  
+      const data = await response.json();
+      setTrainingsWeek(data);
+      return data;
+    } catch (error) {
+      console.error('Error fetching training days:', error);
+      throw error;
+    }
+  };
+  const fetchUserRanking = async () => {
+    try {
+      const response = await fetch('http://ec2-16-170-77-0.eu-north-1.compute.amazonaws.com/statistics/userRankingByCourt/'+currentUser?.id);
+      if (!response.ok) {
+        throw new Error('Failed to fetch user ranking data');
+      }
+      const data = await response.json();
+      setUserRanking(data);
+    } catch (error) {
+      console.error('Error fetching user ranking:', error);
+    }
+  };
+
+  const fetchCourtRanking = async () => {
+    try {
+      const response = await fetch('http://ec2-16-170-77-0.eu-north-1.compute.amazonaws.com/statistics/courtRanking');
+      if (!response.ok) {
+        throw new Error('Failed to fetch court ranking data');
+      }
+      const data = await response.json();
+      setCourtRanking(data);
+    } catch (error) {
+      console.error('Error fetching court ranking:', error);
+    }
+  };
+
+  const getLocalUser = async() => {
+    try {
+      const user = await AsyncStorage.getItem('user');
+      if(!user) {
+        router.navigate('/login')
+      } else {
+        setCurrentUser(JSON.parse(user!))
+        
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    // Function to fetch user ranking data
+   
+
+    // Function to fetch court ranking data
+   
+
+    
+    fetchCourtRanking();
+    getLocalUser();
+  }, []);
+
+
+  useEffect(() => {
+    if(currentUser){
+   getTrainingDaysForCurrentWeek()
+   fetchUserRanking();
+    }
+  },[currentUser])
+
+  // Sample data placeholders for illustration
   const meinGerichtData = [
     { id: '1', rank: '1.', name: 'Anonymer Luchs', points: '30.000', trend: 'up' },
     { id: '2', rank: '2.', name: 'Anonymer Dachs', points: '29.000', trend: 'down' },
     { id: '3', rank: '3.', name: 'Anonymer Hund', points: '28.000', trend: 'up' },
-    { id: '4', rank: '4.', name: 'Anonymer Kater', points: '27.000', trend: 'neutral' },
-    { id: '5', rank: '5.', name: 'Anonymer Fuchs', points: '26.000', trend: 'up' },
-    { id: '6', rank: '6.', name: 'Anonymer Bär', points: '25.000', trend: 'down' },
-    { id: '7', rank: '7.', name: 'Anonymer Wolf', points: '24.000', trend: 'up' },
-    { id: '8', rank: '8.', name: 'Anonymer Adler', points: '23.000', trend: 'neutral' },
-    { id: '9', rank: '9.', name: 'Anonymer Löwe', points: '22.000', trend: 'down' },
-    { id: '10', rank: '10.', name: 'Anonymer Tiger', points: '21.000', trend: 'up' },
+    // Add more as needed...
   ];
 
   const alleGerichteData = [
     { id: '1', rank: '1.', name: 'LG Frankfurt (Oder)', points: '90.000', trend: 'neutral' },
     { id: '2', rank: '2.', name: 'LG Neuruppin', points: '89.000', trend: 'neutral' },
     { id: '3', rank: '3.', name: 'LG Potsdam', points: '88.000', trend: 'up' },
-    { id: '4', rank: '4.', name: 'LG Cottbus', points: '87.000', trend: 'down' },
-    { id: '5', rank: '5.', name: 'LG Berlin', points: '86.000', trend: 'up' },
-    { id: '6', rank: '6.', name: 'LG Hamburg', points: '85.000', trend: 'neutral' },
-    { id: '7', rank: '7.', name: 'LG München', points: '84.000', trend: 'down' },
-    { id: '8', rank: '8.', name: 'LG Stuttgart', points: '83.000', trend: 'up' },
-    { id: '9', rank: '9.', name: 'LG Köln', points: '82.000', trend: 'down' },
-    { id: '10', rank: '10.', name: 'LG Düsseldorf', points: '81.000', trend: 'neutral' },
-    { id: '11', rank: '11.', name: 'LG Leipzig', points: '80.000', trend: 'up' },
-    { id: '12', rank: '12.', name: 'LG Dresden', points: '79.000', trend: 'down' },
-    { id: '13', rank: '13.', name: 'LG Hannover', points: '78.000', trend: 'neutral' },
-    { id: '14', rank: '14.', name: 'LG Bremen', points: '77.000', trend: 'up' },
-    { id: '15', rank: '15.', name: 'LG Mainz', points: '76.000', trend: 'down' },
+    // Add more as needed...
   ];
+
+
+  const loadData = async() => {
+    await fetchUserRanking()
+    await fetchCourtRanking();
+    await getTrainingDaysForCurrentWeek()
+  }
+
   return (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
-    <View style={styles.container}>
-      <Text style={styles.title}>Meine Statistiken</Text>
-      <View style={styles. statisticBox}>
-        <View>
-          <Text style={styles.statisticBoxDetails}>Deine Woche</Text>
-          <Text style={{color: '#222222',fontSize: 20, fontWeight: 'bold'}}>25500</Text>
+      <ScrollView contentContainerStyle={styles.container} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={loadData}/>}>
+        <Text style={styles.title}>Meine Statistiken</Text>
+        <View style={styles.statisticBox}>
+          <View>
+            <Text style={styles.statisticBoxDetails}>Deine Woche</Text>
+            <Text style={{ color: '#222222', fontSize: 20, fontWeight: 'bold' }}>{trainingsWeek.map((e:any) => e.steps).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</Text>
+          </View>
+          {/* Additional elements can be added here */}
+          <View>
+            <WeeklyChart data={trainingsWeek}/>
+          </View>
         </View>
-        <View>
-    
-        </View>
-      </View>
-   
-        <Ranglist title="Rangliste: Mein Gericht" data={meinGerichtData} />
-        <Ranglist title="Rangliste: Alle Gerichte" data={alleGerichteData} />
-  
-    </View>
+
+        {/* Display user ranking */}
+      
+        <Ranglist title="Rangliste: Mein Gericht" data={userRanking} />
+
+        {/* Display court ranking */}
+        <Ranglist title="Rangliste: Alle Gerichte" data={courtRanking} />
+
+      </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
-   paddingVertical: 40,
-   gap: 20,
-   alignItems: 'center'
+    paddingVertical: 40,
+    gap: 20,
+    alignItems: 'center'
   },
   statisticBox: {
     width: '100%',
@@ -73,18 +158,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     padding: 20,
-    justifyContent: 'center'
-   },
-   statisticBoxDetails: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  statisticBoxDetails: {
     color: '#858585',
     fontSize: 18
-   },
-   statisticBoxGraph: {
+  },
+  statisticBoxGraph: {
 
-   },
-    title: {
-      fontSize: 30,
-      fontWeight: 'bold',
-      width: '100%'
-    }
-})
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    width: '100%'
+  }
+});
+
+export default Statistic;

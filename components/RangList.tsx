@@ -1,28 +1,69 @@
 // components/Rangliste.js
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, Text, StyleSheet, FlatList, ScrollView, ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 
 
 const Ranglist = ({ title, data }: any) => {
+const [currentUser, setCurrentUser] = useState<any>();
+const router = useRouter();
+
+const getLocalUser = async() => {
+  try {
+    const user = await AsyncStorage.getItem('user');
+    if(!user) {
+      router.navigate('/login')
+    } else {
+      setCurrentUser(JSON.parse(user!))
+      
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+useEffect(() => {
+getLocalUser()
+},[])
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <ScrollView>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text style={styles.rank}>{item.rank}</Text>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.points}>{item.points}</Text>
-            <Text style={item.trend === 'up' ? styles.trendUp : styles.trendDown}>
-              {item.trend === 'up' ? '▲' : '▼'}
-            </Text>
-          </View>
-        )}
-      />
-      </ScrollView>
+      <View style={{
+          display: 'flex',
+          width: '100%',
+          height: 20,
+          backgroundColor: '#2ed573',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingHorizontal: 5
+        }}>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>{data.findIndex((e:any) => e?.firstname === currentUser?.firstname || e?.place === currentUser?.court)+1}</Text>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>{data.find((e:any) => e?.firstname === currentUser?.firstname || e?.place === currentUser?.court)?.firstname || data.find((e:any) => e?.firstname === currentUser?.firstname || e?.place === currentUser?.court)?.place}</Text>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>{data.find((e:any) => e?.firstname === currentUser?.firstname || e?.place === currentUser?.court)?.totalSteps}</Text>
+        </View>
+        {
+          !data ? <ActivityIndicator size='large' color="#1e90ff"/> : (
+            <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item, index }) => (
+              <View style={styles.itemContainer}>
+                <Text style={styles.rank}>{index+1}</Text>
+                <Text style={styles.name}>{item.place || item.firstname}</Text>
+                <Text style={styles.points}>{item.totalSteps}</Text>
+                <Text style={item.trend === 'up' ? styles.trendUp : styles.trendDown}>
+                  {item.trend === 'up' ? '▲' : '▼'}
+                </Text>
+              </View>
+            )}
+          />
+          )
+        }
+     
+     
     </View>
   );
 };

@@ -29,10 +29,11 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <Stack>
-      {/* <Stack.Screen name="register" options={{ title: 'Login', headerShown: false }}/> */}
-      <Stack.Screen name="register" options={{headerShown: false }} />
-      <Stack.Screen name="login" options={{headerShown: false }} />
+      <Stack.Screen name="(auth)" options={{headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{headerShown: false }} />
+      {/* <Stack.Screen name="register" options={{ title: 'Login', headerShown: false }}/> */}
+    
+      
       </Stack>
     </ThemeProvider>
   );
