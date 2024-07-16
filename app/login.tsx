@@ -33,7 +33,10 @@ const LoginScreen = () => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
         <View style={styles.header}>
-          <View style={styles.circle} />
+          <Image
+              source={require('@/assets/images/logo2.jpg')}
+              style={styles.circle}
+          />
           <Text style={styles.title}>Stride4Health</Text>
           <Text style={styles.subtitle}>Sammle deine Schritte und bringe dich und dein Gericht an die Spitze!</Text>
         </View>
@@ -118,11 +121,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#8BC0DE'
   },
   circle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#C4C4C4',
-    marginBottom: 20,
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    backgroundColor: '#cdcdcd',
+    marginTop:60,
   },
   title: {
     fontSize: 44,
