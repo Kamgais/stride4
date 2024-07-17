@@ -131,10 +131,10 @@ const Statistic = () => {
 
         {/* Display user ranking */}
       
-        <Ranglist title="Rangliste: Mein Gericht" data={userRanking} />
+        <Ranglist title="Rangliste: Mein Gericht" data={userRanking} type='users' />
 
         {/* Display court ranking */}
-        <Ranglist title="Rangliste: Alle Gerichte" data={courtRanking} />
+        <Ranglist title="Rangliste: Alle Gerichte" data={courtRanking} type='courts' />
 
       </ScrollView>
     </SafeAreaView>

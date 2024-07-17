@@ -14,7 +14,7 @@ export default function CalendarScreen() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [trainingsdays, setTrainingsDays] = useState<any[]>([]);
   const [markedDates, setMarkedDates] = useState({})
-  const [selected, setSelected] = useState(new Date(Date.now()).toISOString().split('T')[0]);
+  const [selected, setSelected] = useState(convertToGermanDate(new Date(Date.now()).toISOString().split('T')[0]));
   const router = useRouter();
   
   const toggleModal = () => {
@@ -37,9 +37,9 @@ export default function CalendarScreen() {
 
 
 const saveTrainingDay = async (steps:any) => {
-  if(trainingsdays.map((e: any) => e.day.split('T')[0]).includes(selected)) {
+  if(trainingsdays.map((e: any) => e.day.split('T')[0]).includes(convertToISODate(selected))) {
     try {
-      const response = await fetch(`http://ec2-16-170-77-0.eu-north-1.compute.amazonaws.com/trainingsdays/${trainingsdays.find((e:any) => e.day.split('T')[0] === selected)?.id}`, {
+      const response = await fetch(`http://ec2-16-170-77-0.eu-north-1.compute.amazonaws.com/trainingsdays/${trainingsdays.find((e:any) => e.day.split('T')[0] === convertToISODate(selected))?.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const saveTrainingDay = async (steps:any) => {
   
       const data = await response.json();
       await getAllTrainingDays()
-      alert('Neue Schritte fehlerfrei geändert🎉🎉')
+      alert('Neue Schritte geändert🎉🎉')
       return data;
     } catch (error) {
       console.error('Error updating training day:', error);
@@ -112,6 +112,20 @@ const saveTrainingDay = async (steps:any) => {
     }
   };
 
+  function convertToGermanDate(dateStr: string) {
+    let [year, month, day] = dateStr.split('-');
+    return `${day}.${month}.${year}`;
+  }
+
+  function convertToISODate(germanDateStr:string) {
+    let [day, month, year] = germanDateStr.split('.');
+    return `${year}-${month}-${day}`;
+  }
+
+  const handleSelected = (event:string) => {
+    const newFormat = convertToGermanDate(event);
+    setSelected(newFormat);
+  }
   
   const buildSelectedDates = (trainingsdays:any) => {
     let dates:any = {};
@@ -140,10 +154,10 @@ const saveTrainingDay = async (steps:any) => {
       <View style={styles.calendar}>
       <Calendar
        onDayPress={(day: any) => {
-        setSelected(day.dateString);
+        handleSelected(day.dateString);
       }}
       markedDates={{
-        [selected]: {selected: true},
+        [convertToISODate(selected)]: {selected: true},
         ...markedDates
       }
        
@@ -154,7 +168,7 @@ const saveTrainingDay = async (steps:any) => {
           <Text style={{fontWeight: 'bold'}}>{selected}</Text>
           <TextInput
           style={styles.input}
-          placeholder={trainingsdays.map((e: any) => e.day.split('T')[0]).includes(selected) ? `${trainingsdays.find((e:any) => e.day.split('T')[0] === selected)?.steps}` : 'Gib deine Schritte ein'}
+          placeholder={trainingsdays.map((e: any) => e.day.split('T')[0]).includes(convertToISODate(selected)) ? `${trainingsdays.find((e:any) => e.day.split('T')[0] === convertToISODate(selected))?.steps?.toLocaleString('en-US')}` : 'Gib deine Schritte ein'}
           placeholderTextColor="#999999"
           value={email}
           onChangeText={setEmail}
@@ -171,7 +185,7 @@ const saveTrainingDay = async (steps:any) => {
         onSwipeComplete={toggleModal}
         style={styles.modal}
       >
-        <BottomModalSheet title='Gib deine Schritte ein :' toggleModal={toggleModal} value={trainingsdays.map((e: any) => e.day.split('T')[0]).includes(selected) ? trainingsdays.find((e:any) => e.day.split('T')[0] === selected)?.steps : 0} setValue={saveTrainingDay} />
+        <BottomModalSheet title='Gib deine Schritte ein :' toggleModal={toggleModal} value={trainingsdays.map((e: any) => e.day.split('T')[0]).includes(convertToISODate(selected)) ? trainingsdays.find((e:any) => e.day.split('T')[0] === convertToISODate(selected))?.steps : 0} setValue={saveTrainingDay} />
       </Modal>
     </SafeAreaView>
   )

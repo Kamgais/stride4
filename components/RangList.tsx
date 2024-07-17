@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 
 
-const Ranglist = ({ title, data }: any) => {
+const Ranglist = ({ title, data, type }: any) => {
 const [currentUser, setCurrentUser] = useState<any>();
 const router = useRouter();
 
@@ -23,10 +23,23 @@ const getLocalUser = async() => {
   }
 }
 
+function generateRandomNameFromString(inputStr:string, nameLength:number) {
+  let characters = inputStr.split('');
+  let result = 'Anonymer ';
+  for (let i = 0; i < nameLength; i++) {
+    result += characters[Math.floor(Math.random() * characters.length)];
+  }
+  return result;
+}
+
 
 useEffect(() => {
 getLocalUser()
-},[])
+
+if(type === 'courts') {
+  data.reverse()
+}
+},[data])
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
@@ -52,10 +65,10 @@ getLocalUser()
             renderItem={({ item, index }) => (
               <View style={styles.itemContainer}>
                 <Text style={styles.rank}>{index+1}</Text>
-                <Text style={styles.name}>{item.place || item.firstname}</Text>
+                <Text style={styles.name}>{item.place || generateRandomNameFromString(item.firstname, 10)}</Text>
                 <Text style={styles.points}>{item.totalSteps}</Text>
-                <Text style={item.trend === 'up' ? styles.trendUp : styles.trendDown}>
-                  {item.trend === 'up' ? '▲' : '▼'}
+                <Text style={index === 0 ? styles.trendUp : styles.trendDown}>
+                  {index  === 0 ? '▲' : '▼'}
                 </Text>
               </View>
             )}

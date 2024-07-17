@@ -11,11 +11,13 @@ type Props = {
   title: string
 }
 const BottomModalSheet = ({ toggleModal, setValue , value, title }: Props) => {
-  const [input, setInput] = useState(value.toString())
+  const [input, setInput] = useState(value?.toLocaleString('en-US'))
   const handleSubmit = async() => {
    await setValue(Number(input))
     toggleModal()
   }
+
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <View style={styles.modalContent}>
@@ -23,7 +25,7 @@ const BottomModalSheet = ({ toggleModal, setValue , value, title }: Props) => {
         <TextInput
           style={styles.input}
           value={input.toString()}
-          placeholder={input.toString()}
+          placeholder={input?.toString()}
           onChangeText={setInput}
           keyboardType="numeric"
           maxLength={6}

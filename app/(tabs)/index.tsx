@@ -88,12 +88,12 @@ const CircularProgress = ({ size, strokeWidth, percentage, goal, toggleModal, st
       </Svg>
       <View style={styles.absoluteCenter}>
       <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 4}}>
-          <Text style={styles.goal}> Dein Tagesziel: {goal} </Text>
+          <Text style={styles.goal}> Dein Tagesziel: {goal?.toLocaleString('en-US')} </Text>
           <Pressable onPress={toggleModal}>
         <MaterialIcons name="edit" size={20} color="black" />
         </Pressable>
         </View>
-        <Text style={styles.steps}>{steps}</Text>
+        <Text style={styles.steps}>{steps?.toLocaleString('en-US')}</Text>
       </View>
     </View>
   );
@@ -228,7 +228,7 @@ const getTodaySteps = async () => {
             <>
             <View>
           <Text style={styles.statisticBoxDetails}>Deine Woche</Text>
-          <Text style={{color: '#222222',fontSize: 20, fontWeight: 'bold'}}>{trainingsWeek.map((e:any) => e.steps).reduce((accumulator, currentValue) => accumulator + currentValue, 0)}</Text>
+          <Text style={{color: '#222222',fontSize: 20, fontWeight: 'bold'}}>{trainingsWeek.map((e:any) => e.steps).reduce((accumulator, currentValue) => accumulator + currentValue, 0)?.toLocaleString('en-US')}</Text>
         </View>
         <View>
         <WeeklyChart data={trainingsWeek} />
