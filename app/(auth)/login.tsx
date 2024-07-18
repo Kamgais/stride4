@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 0,
     paddingTop: 0,
-    fontFamily: 'Manrope',
+    fontFamily: 'Roboto',
     height: '100%',
   },
   header: {
@@ -160,13 +160,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
     marginBottom: 10,
-    fontFamily: 'Manrope-Bold',
+    fontFamily: 'Roboto-Bold',
   },
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
     color: '#FFFFFF',
-    fontFamily: 'Manrope-SemiBold',
+    fontFamily: 'Roboto-SemiBold',
   },
   inputContainer: {
     width: '100%',
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginTop: 0,
     shadowColor: '#000',
-    fontFamily: 'Manrope',
+    fontFamily: 'Roboto',
   },
   input: {
     height: 50,
@@ -189,14 +189,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     marginBottom: 10,
     color: '#000000',
-    fontFamily: 'Manrope',
+    fontFamily: 'Roboto',
     backgroundColor: 'white',
   },
   forgotPassword: {
     color: '#8BC0DE',
     textAlign: 'left',
     marginBottom: 20,
-    fontFamily: 'Manrope',
+    fontFamily: 'Roboto',
   },
   loginButton: {
     height: 50,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   loginButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontFamily: 'Manrope',
+    fontFamily: 'Roboto',
   },
   register: {
     textAlign: 'left',
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   },
   registerLink: {
     color: '#8BC0DE',
-    fontFamily: 'Manrope',
+    fontFamily: 'Roboto',
   },
   errorText: {
     color: 'red',

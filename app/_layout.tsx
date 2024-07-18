@@ -11,9 +11,9 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    'Manrope-Regular': require('../assets/fonts/Manrope-Regular.ttf'),
-    'Manrope-Bold': require('../assets/fonts/Manrope-Bold.ttf'),
-    'Manrope-SemiBold': require('../assets/fonts/Manrope-SemiBold.ttf')
+    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Bold': require('../assets/fonts/Roboto-Bold.ttf'),
+    'Roboto-SemiBold': require('../assets/fonts/Roboto-Bold.ttf')
   });
 
   useEffect(() => {

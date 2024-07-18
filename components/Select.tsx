@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     marginBottom: 10,
     color: '#000000',
-     fontFamily: 'Manrope',
+     fontFamily: 'Roboto',
      backgroundColor: 'white'
   },
   modalContainer: {
