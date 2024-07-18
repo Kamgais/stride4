@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     paddingLeft:40,
   },
   picker:{
-    paddingLeft:350,
+    paddingLeft:340,
   }
 });
 
