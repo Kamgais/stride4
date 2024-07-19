@@ -1,9 +1,17 @@
 import SelectDropdown from '@/components/Select';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
-const options = ['Berlin', 'Option 2', 'Option 3'];
+const options = [    "LG Frankfurt (Oder)",
+  "LG Neuruppin",
+  "LG Potsdam",
+  "LG Cottbus",
+  "AG Angermünde",
+  "AG Bad Freienwalde (Oder)",
+  "AG Beeskow",
+  "AG Brandenburg an der Havel",
+];
 
 const RegisterScreen = () => {
   const [vorname, setVorname] = useState('');
@@ -72,6 +80,11 @@ const RegisterScreen = () => {
             </View>
             <View style={styles.inputContainer}>
               <Text>Persönliche Angaben:</Text>
+              <View  style={styles.inputWrapper}>
+              <Image
+                style={styles.icon}
+                source={require('@/assets/images/user.png')}
+            />
               <TextInput
                 style={styles.input}
                 placeholder="Vorname"
@@ -80,6 +93,12 @@ const RegisterScreen = () => {
                 onChangeText={setVorname}
                 autoCapitalize="none"
               />
+              </View>
+              <View  style={styles.inputWrapper}>
+              <Image
+                style={styles.icon}
+                source={require('@/assets/images/user.png')}
+            />
               <TextInput
                 style={styles.input}
                 placeholder="Nachname"
@@ -88,9 +107,15 @@ const RegisterScreen = () => {
                 onChangeText={setNachname}
                 autoCapitalize="none"
               />
+              </View>
             </View>
             <View style={styles.inputContainer}>
               <Text>Email und Password vergeben:</Text>
+              <View style={styles.inputWrapper}>
+              <Image
+                  style={styles.icon}
+                  source={require('@/assets/images/user.png')}
+              />
               <TextInput
                 style={styles.input}
                 placeholder="E-Mail"
@@ -100,6 +125,12 @@ const RegisterScreen = () => {
                 keyboardType="email-address"
                 autoCapitalize="none"
               />
+              </View>
+              <View style={styles.inputWrapper}>
+              <Image
+                  style={styles.icon}
+                  source={require('@/assets/images/passwrd.png')}
+              />
               <TextInput
                 style={styles.input}
                 placeholder="Password eingeben"
@@ -107,6 +138,12 @@ const RegisterScreen = () => {
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
+              />
+              </View>
+              <View style={styles.inputWrapper}>
+              <Image
+                  style={styles.icon}
+                  source={require('@/assets/images/passwrd.png')}
               />
               <TextInput
                 style={styles.input}
@@ -116,6 +153,7 @@ const RegisterScreen = () => {
                 onChangeText={setConfirmPassword}
                 secureTextEntry
               />
+              </View>
             </View>
             <View style={styles.inputContainer}>
               <Text>Bitte wähle dein Gericht aus:</Text>
@@ -198,7 +236,7 @@ const styles = StyleSheet.create({
     gap: 5,
     fontFamily: 'Roboto'
   },
-  input: {
+  inputWrapper: {
     height: 50,
     borderColor: '#CCCCCC',
     borderWidth: 1,
@@ -207,11 +245,36 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    paddingHorizontal: 30,
+    paddingHorizontal: 40,
     marginBottom: 10,
     color: '#000000',
-    fontFamily: 'Roboto',
-    backgroundColor: 'white'
+     fontFamily: 'Manrope',
+     backgroundColor: 'white',
+    // paddingLeft:20
+    flexDirection:'row',
+    alignItems:"center"
+
+  },
+  icon: {
+    width: 12,
+    height: 12,
+
+  },
+  input: {
+    // height: 50,
+    // borderColor: '#CCCCCC',
+    // borderWidth: 1,
+    // borderRadius: 67,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 2, height: 2 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
+    // paddingHorizontal: 30,
+    // marginBottom: 10,
+    // color: '#000000',
+    // fontFamily: 'Roboto',
+    // backgroundColor: 'white'
+    paddingLeft:30,
   },
   forgotPassword: {
     color: '#8BC0DE',

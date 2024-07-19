@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, StatusBar, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
@@ -77,11 +77,19 @@ const LoginScreen = () => {
       <Toast />
       <View style={styles.container}>
         <View style={styles.header}>
-          <View style={styles.circle} />
+        <Image
+              source={require('@/assets/images/logo2.jpg')}
+              style={styles.circle}
+          />
           <Text style={styles.title}>Stride4Health</Text>
           <Text style={styles.subtitle}>Sammle deine Schritte und bringe dich und dein Gericht an die Spitze!</Text>
         </View>
         <View style={styles.inputContainer}>
+        <View  style={styles.inputWrapper}>
+            <Image
+                source={require('@/assets/images/user.png')}
+                style={styles.icon}
+            />
           <TextInput
             style={styles.input}
             placeholder="E-Mail"
@@ -91,7 +99,13 @@ const LoginScreen = () => {
             keyboardType="email-address"
             autoCapitalize="none"
           />
+          </View>
           {error.includes('E-Mail') && <Text style={styles.errorText}>{error}</Text>}
+          <View  style={styles.inputWrapper}>
+            <Image
+                source={require('@/assets/images/passwrd.png')}
+                style={styles.icon}
+            />
           <TextInput
             style={styles.input}
             placeholder="Passwort"
@@ -100,6 +114,7 @@ const LoginScreen = () => {
             onChangeText={setPassword}
             secureTextEntry
           />
+          </View>
           {error.includes('Password') && <Text style={styles.errorText}>{error}</Text>}
           <TouchableOpacity>
             <Text style={styles.forgotPassword}>Passwort vergessen?</Text>
@@ -178,6 +193,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
   },
   input: {
+    // height: 50,
+    // borderColor: '#CCCCCC',
+    // borderWidth: 1,
+    // borderRadius: 67,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 2, height: 2 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
+    // paddingHorizontal: 30,
+    // marginBottom: 10,
+    // color: '#000000',
+    // fontFamily: 'Roboto',
+    // backgroundColor: 'white',
+    paddingLeft:30,
+  },
+  inputWrapper: {
     height: 50,
     borderColor: '#CCCCCC',
     borderWidth: 1,
@@ -186,11 +217,20 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    paddingHorizontal: 30,
+    paddingHorizontal: 40,
     marginBottom: 10,
     color: '#000000',
-    fontFamily: 'Roboto',
-    backgroundColor: 'white',
+     fontFamily: 'Manrope',
+     backgroundColor: 'white',
+    // paddingLeft:20
+    flexDirection:'row',
+    alignItems:"center"
+
+  },
+  icon: {
+    width: 12,
+    height: 12,
+
   },
   forgotPassword: {
     color: '#8BC0DE',

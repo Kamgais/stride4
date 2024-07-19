@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Modal, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, Modal, TouchableOpacity, Text, StyleSheet , ScrollView} from 'react-native';
 
 const SelectDropdown = ({ options, selectedOption, onSelect }: any) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,7 +14,7 @@ const SelectDropdown = ({ options, selectedOption, onSelect }: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <TouchableOpacity style={styles.button} onPress={toggleModal}>
         <Text>{selectedOption}</Text>
       </TouchableOpacity>
@@ -24,19 +24,22 @@ const SelectDropdown = ({ options, selectedOption, onSelect }: any) => {
         animationType='slide'
         onRequestClose={toggleModal}
       >
-        <View style={styles.modalContainer}>
+        <ScrollView contentContainerStyle={styles.modalContainer}>
           {options?.map((option: any) => (
             <TouchableOpacity
               key={option}
               style={styles.option}
               onPress={() => handleOptionSelect(option)}
             >
-              <Text>{option}</Text>
+              <Text style={{
+                color: 'white',
+                fontWeight: 'bold'
+              }}>{option}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
       </Modal>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -70,6 +73,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    height: '80%',
+  
   },
   option: {
     paddingVertical: 10,

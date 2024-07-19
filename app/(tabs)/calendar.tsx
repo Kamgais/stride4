@@ -72,7 +72,7 @@ const saveTrainingDay = async (steps:any) => {
         body: JSON.stringify({
           userId: currentUser.id,
           steps,
-          day: selected,
+          day: convertToISODate(selected) ,
         }),
       });
   
