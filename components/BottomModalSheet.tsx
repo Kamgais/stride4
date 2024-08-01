@@ -19,7 +19,7 @@ const BottomModalSheet = ({ toggleModal, setValue , value, title }: Props) => {
 
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <KeyboardAvoidingView behavior={"padding"}>
       <View style={styles.modalContent}>
         <Text style={styles.title}>{title}</Text>
         <TextInput

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StatusBar, StyleSheet, TextInput} from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, StyleSheet, TextInput, ScrollView} from 'react-native'
 import React, { useState,useEffect } from 'react'
 import { Calendar } from 'react-native-calendars'
 import Button from '@/components/Button';
@@ -149,7 +149,7 @@ const saveTrainingDay = async (steps:any) => {
   return (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Meine Einträge:</Text>
       <View style={styles.calendar}>
       <Calendar
@@ -178,7 +178,7 @@ const saveTrainingDay = async (steps:any) => {
           />
          <Button title='Bearbeiten' onPress={toggleModal}/>
         </View>
-    </View>
+    </ScrollView>
     <Modal 
         isVisible={isModalVisible}
         swipeDirection="down"

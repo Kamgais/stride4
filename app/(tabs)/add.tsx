@@ -39,7 +39,13 @@ export default function AddTraningsStep() {
     }
    },[currentUser])
 
+
+  
+
    const updateTrainingDay = async (steps:any) => {
+    if(!trainingsToday.id) {
+      
+    }
     try {
       const response = await fetch(`http://ec2-16-170-77-0.eu-north-1.compute.amazonaws.com/trainingsdays/${trainingsToday.id}`, {
         method: 'PUT',
@@ -76,7 +82,10 @@ export default function AddTraningsStep() {
       });
   
       if (!response.ok) {
-        throw new Error('Failed to fetch today\'s steps');
+       setTrainingsToday({
+        steps: 0
+       })
+       return ;
       }
   
       const data = await response.json();
